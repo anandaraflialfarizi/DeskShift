@@ -13,11 +13,21 @@ swift build -c release
 app="$PWD/dist/PadBridge.app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 rm -rf "$app/Contents/Resources/PadBridge_PadBridge.bundle"
+iconset=$(mktemp -d)
+trap 'rm -rf "$iconset"' EXIT
+mkdir "$iconset/PadBridge.iconset"
+for size in 16 32 128 256 512; do
+    source_icon=iPad/App/Assets.xcassets/AppIcon.appiconset/PadBridge.png
+    sips -z "$size" "$size" "$source_icon" --out "$iconset/PadBridge.iconset/icon_${size}x${size}.png" >/dev/null
+    sips -z "$((size * 2))" "$((size * 2))" "$source_icon" --out "$iconset/PadBridge.iconset/icon_${size}x${size}@2x.png" >/dev/null
+done
+iconutil -c icns "$iconset/PadBridge.iconset" -o "$app/Contents/Resources/PadBridge.icns"
 cp .build/release/PadBridge "$app/Contents/MacOS/PadBridge"
 cat > "$app/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
+<key>CFBundleIconFile</key><string>PadBridge.icns</string>
 <key>CFBundleIdentifier</key><string>local.padbridge.host</string>
 <key>CFBundleName</key><string>PadBridge</string>
 <key>CFBundleDisplayName</key><string>PadBridge</string>

@@ -1,9 +1,15 @@
 # PadBridge
 
+<img src="iPad/App/Assets.xcassets/AppIcon.appiconset/PadBridge.png" alt="Logo PadBridge" width="112">
+
 Tampilkan dan kontrol Mac dari iPad atau iPhone. Gunakan **Remote** untuk layar utama atau **Extend** untuk desktop tambahan. Setelah pemasangan pertama, PadBridge menyimpan sambungan sehingga kamu bisa memilih nama Mac untuk terhubung lagi.
 
 - **Satu jaringan** — aplikasi menyambung langsung setelah kamu memasukkan kode.
 - **Wi-Fi berbeda, hotspot, atau data seluler** — siapkan relay pribadi sekali, lalu pasangkan perangkat dengan kode baru. Kode yang sama mendukung sambungan lokal dan internet.
+
+<img src="docs/ipad-test.png" alt="PadBridge di iPad dalam mode pengujian" width="340">
+
+*Tampilan PadBridge di iPad dalam mode pengujian.*
 
 ## Yang diperlukan
 
