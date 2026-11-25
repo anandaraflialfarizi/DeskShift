@@ -54,7 +54,7 @@ struct PadBridgeApp: App {
 
     func connect(code: String) {
         do { connect(SavedConnection(code: try PairingCode(code))) }
-        catch { message = "Kode tidak valid. Salin kode lengkap dari menu PadBridge di Mac." }
+        catch { message = "Kode tidak valid. Salin kode lengkap dari menu DeskShift di Mac." }
     }
 
     private func connect(_ profile: SavedConnection, relayAddress: String? = nil) {
@@ -82,7 +82,7 @@ struct PadBridgeApp: App {
             let peer = try NativePeer(connection: connection, token: token, relay: internet, webSocket: webSocket)
             self.peer = peer
             pendingProfile = profile
-            connecting = true; message = internet ? "Menghubungkan lewat server PadBridge…" : "Menghubungkan ke Mac…"
+            connecting = true; message = internet ? "Menghubungkan lewat server DeskShift…" : "Menghubungkan ke Mac…"
             lastPacket = Date(); lastFrame = .distantPast; frames = 0
             peer.onReady = { [weak peer] in
                 if internet {
@@ -121,7 +121,7 @@ struct PadBridgeApp: App {
                     self.peer?.send(Packet(.ping))
                 }
             }
-        } catch { message = "Sambungan tidak valid. Salin kode terbaru dari menu PadBridge di Mac." }
+        } catch { message = "Sambungan tidak valid. Salin kode terbaru dari menu DeskShift di Mac." }
     }
 
     private func receive(_ packet: Packet) {
@@ -250,7 +250,7 @@ struct ConnectionView: View {
                         }
                         if session.testing { Text("Mode pengujian · bukan layar Mac").font(.callout).foregroundStyle(.secondary) }
                         if session.accessibilityRequired {
-                            Text("Izinkan PadBridge di Accessibility pada Mac sekali agar mouse dan keyboard bisa dipakai.")
+                            Text("Izinkan DeskShift di Accessibility pada Mac sekali agar mouse dan keyboard bisa dipakai.")
                                 .font(.callout).foregroundStyle(.secondary)
                         }
                         if !session.message.isEmpty {
@@ -305,7 +305,7 @@ struct ConnectionView: View {
                         } header: {
                             Text(session.savedConnection == nil ? "Sambungkan Mac" : "Kode baru")
                         } footer: {
-                            Text("Di menu PadBridge pada Mac, buka Kode sambungan, lalu tempel kodenya di sini.")
+                            Text("Di menu DeskShift pada Mac, buka Kode sambungan, lalu tempel kodenya di sini.")
                         }
                         if session.connecting {
                             Section {
@@ -318,7 +318,7 @@ struct ConnectionView: View {
                     }
                 }
             }
-            .navigationTitle("PadBridge")
+            .navigationTitle("DeskShift")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(fullScreen ? .hidden : .visible, for: .navigationBar)
             .statusBarHidden(fullScreen)

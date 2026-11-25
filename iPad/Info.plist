@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-<key>NSLocalNetworkUsageDescription</key><string>PadBridge menghubungkan perangkat ini ke Mac lewat kode yang kamu masukkan untuk menampilkan dan mengontrol layar.</string>
+<key>NSLocalNetworkUsageDescription</key><string>DeskShift menghubungkan perangkat ini ke Mac lewat kode yang kamu masukkan untuk menampilkan dan mengontrol layar.</string>
 <key>NSBonjourServices</key><array><string>_padbridge._tcp</string></array>
 <key>NSUserActivityTypes</key><array><string>local.padbridge.pair</string></array>
 <key>UILaunchScreen</key><dict/>

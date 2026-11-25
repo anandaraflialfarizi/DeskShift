@@ -60,7 +60,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 signalSources.append(source)
             }
             IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
-                                       IOPMAssertionLevel(kIOPMAssertionLevelOn), "PadBridge active session" as CFString, &assertion)
+                                       IOPMAssertionLevel(kIOPMAssertionLevelOn), "DeskShift active session" as CFString, &assertion)
             try startServer()
             if isProbeSession { Task { await self.probeSession() } }
             else if !testServer, CommandLine.arguments.contains("--setup") {
@@ -71,9 +71,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 }
             }
         } catch {
-            fputs("PadBridge: \(error.localizedDescription)\n", stderr)
+            fputs("DeskShift: \(error.localizedDescription)\n", stderr)
             let alert = NSAlert()
-            alert.messageText = "PadBridge tidak dapat dimulai"
+            alert.messageText = "DeskShift tidak dapat dimulai"
             alert.informativeText = "Pengaturan Keychain atau koneksi tidak dapat dibaca. \(error.localizedDescription)"
             NSApp.activate(ignoringOtherApps: true)
             alert.runModal()
@@ -92,7 +92,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
     private func buildMenu() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem?.button?.title = testServer ? "PadBridge Test" : "PadBridge"
+        statusItem?.button?.title = testServer ? "DeskShift Test" : "DeskShift"
         let menu = NSMenu()
         menu.delegate = self
         connectionItem = NSMenuItem(title: "Menyiapkan koneksi lokal…", action: nil, keyEquivalent: "")
@@ -109,7 +109,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         add("Izin perekaman layar…", #selector(screenPermission), to: menu)
         accessibilityItem = add("Izin Accessibility…", #selector(accessibilityPermission), to: menu)
         menu.addItem(.separator())
-        add("Keluar PadBridge", #selector(quit), to: menu)
+        add("Keluar DeskShift", #selector(quit), to: menu)
         statusItem?.menu = menu
     }
 
@@ -133,11 +133,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             return
         }
         if code.relayFallback != nil {
-            alert.informativeText = "Tempel kode ini di PadBridge. Aplikasi mencoba koneksi lokal dulu, lalu server pribadimu jika Mac tidak terjangkau."
+            alert.informativeText = "Tempel kode ini di DeskShift. Aplikasi mencoba koneksi lokal dulu, lalu server pribadimu jika Mac tidak terjangkau."
         } else if code.internet {
-            alert.informativeText = "Tempel kode ini di PadBridge untuk menyambung lewat server pribadimu."
+            alert.informativeText = "Tempel kode ini di DeskShift untuk menyambung lewat server pribadimu."
         } else {
-            alert.informativeText = "Tempel kode ini di PadBridge pada iPad atau iPhone yang satu jaringan dengan Mac."
+            alert.informativeText = "Tempel kode ini di DeskShift pada iPad atau iPhone yang satu jaringan dengan Mac."
         }
         alert.informativeText += " Simpan kode ini untuk perangkatmu sendiri."
         let field = NSTextField(wrappingLabelWithString: code.text)
@@ -169,7 +169,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         panel.isReleasedWhenClosed = false
         panel.hidesOnDeactivate = false
         panel.delegate = self
-        let instruction = NSTextField(wrappingLabelWithString: "Di iPad atau iPhone dengan Akun Apple yang sama, buka PadBridge dari Handoff (di Dock iPad atau Pengalih App iPhone). Dekatkan perangkat dan aktifkan Wi-Fi, Bluetooth, serta Handoff. Undangan ini berlaku dua menit selama jendela terbuka.")
+        let instruction = NSTextField(wrappingLabelWithString: "Di iPad atau iPhone dengan Akun Apple yang sama, buka DeskShift dari Handoff (di Dock iPad atau Pengalih App iPhone). Dekatkan perangkat dan aktifkan Wi-Fi, Bluetooth, serta Handoff. Undangan ini berlaku dua menit selama jendela terbuka.")
         instruction.frame = NSRect(x: 20, y: 16, width: 380, height: 100)
         panel.contentView?.addSubview(instruction)
         let activity = PairingHandoff.makeActivity(for: code)
@@ -188,8 +188,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     }
     @objc private func configureRelay() {
         let alert = NSAlert()
-        alert.messageText = "Server PadBridge milikmu"
-        alert.informativeText = "Masukkan alamat TLS dan kunci host server milikmu. Kunci disimpan di Keychain; Mac menyambung kembali saat PadBridge dibuka."
+        alert.messageText = "Server DeskShift milikmu"
+        alert.informativeText = "Masukkan alamat TLS dan kunci host server milikmu. Kunci disimpan di Keychain; Mac menyambung kembali saat DeskShift dibuka."
         let stack = NSStackView()
         stack.orientation = .vertical; stack.alignment = .leading; stack.spacing = 8
         let address = NSTextField(string: UserDefaults.standard.string(forKey: "relayAddress") ?? "")
@@ -288,7 +288,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         guard !switching else { return }
         guard !testServer else { errorMessage = "Server pengujian: capture dan input dinonaktifkan."; return }
         guard CGPreflightScreenCaptureAccess() else {
-            errorMessage = "Mac belum mengizinkan perekaman layar. Di Mac, izinkan PadBridge di Screen & System Audio Recording, lalu buka ulang PadBridge di Mac."
+            errorMessage = "Mac belum mengizinkan perekaman layar. Di Mac, izinkan DeskShift di Screen & System Audio Recording, lalu buka ulang DeskShift di Mac."
             return
         }
         switching = true
@@ -399,7 +399,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 return
             }
             guard !switching, !testServer, errorMessage == nil, capture.hasFrame, input.send(event) else {
-                fail(AXIsProcessTrusted() ? "Tunggu sampai layar Mac siap." : "Izinkan PadBridge di Accessibility pada Mac sekali.")
+                fail(AXIsProcessTrusted() ? "Tunggu sampai layar Mac siap." : "Izinkan DeskShift di Accessibility pada Mac sekali.")
                 return
             }
         } else { fail("Perintah tidak dikenal.") }
@@ -434,7 +434,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         image.lockFocus()
         NSColor(calibratedWhite: 0.94, alpha: 1).setFill()
         NSRect(x: 0, y: 0, width: 1200, height: 900).fill()
-        NSString(string: "PadBridge / Test frame").draw(at: NSPoint(x: 80, y: 500), withAttributes: [.font: NSFont.systemFont(ofSize: 48), .foregroundColor: NSColor.black])
+        NSString(string: "DeskShift / Test frame").draw(at: NSPoint(x: 80, y: 500), withAttributes: [.font: NSFont.systemFont(ofSize: 48), .foregroundColor: NSColor.black])
         NSString(string: "Capture layar dan kontrol Mac dinonaktifkan.").draw(at: NSPoint(x: 80, y: 430), withAttributes: [.font: NSFont.systemFont(ofSize: 24), .foregroundColor: NSColor.darkGray])
         image.unlockFocus()
         guard let tiff = image.tiffRepresentation, let bitmap = NSBitmapImageRep(data: tiff) else { return nil }

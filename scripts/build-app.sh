@@ -29,8 +29,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <plist version="1.0"><dict>
 <key>CFBundleIconFile</key><string>PadBridge.icns</string>
 <key>CFBundleIdentifier</key><string>local.padbridge.host</string>
-<key>CFBundleName</key><string>PadBridge</string>
-<key>CFBundleDisplayName</key><string>PadBridge</string>
+<key>CFBundleName</key><string>DeskShift</string>
+<key>CFBundleDisplayName</key><string>DeskShift</string>
 <key>CFBundleExecutable</key><string>PadBridge</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>0.3.0</string>
@@ -38,8 +38,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>LSUIElement</key><true/>
 <key>NSHighResolutionCapable</key><true/>
-<key>NSScreenCaptureUsageDescription</key><string>PadBridge menampilkan layar Mac ini di iPad atau iPhone yang kamu pasangkan.</string>
-<key>NSLocalNetworkUsageDescription</key><string>PadBridge menghubungkan Mac langsung ke iPad atau iPhone milikmu.</string>
+<key>NSScreenCaptureUsageDescription</key><string>DeskShift menampilkan layar Mac ini di iPad atau iPhone yang kamu pasangkan.</string>
+<key>NSLocalNetworkUsageDescription</key><string>DeskShift menghubungkan Mac langsung ke iPad atau iPhone milikmu.</string>
 <key>NSBonjourServices</key><array><string>_padbridge._tcp</string></array>
 <key>NSUserActivityTypes</key><array><string>local.padbridge.pair</string></array>
 </dict></plist>
